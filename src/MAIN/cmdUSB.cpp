@@ -19,6 +19,7 @@
 #define DELAY_COM_INIT 1000
 #define DELAY_RESET 200
 
+
 /*
 /Class INTERFACE definition
 */
@@ -59,7 +60,9 @@ void COMUSB::Transmit(uint8_t * Buffer, uint16_t size) {
 
 COMUART::COMUART(PinName Tx, PinName Rx) : Serial(Tx, Rx), INTERFACE()
 {
-    //do nothing
+    Serial COMUART(PA_2, PA_3);
+		//baud(115200);
+		//printf("Using UART USB \n\r");
 }
 
 void COMUART::Init() {
@@ -131,6 +134,7 @@ void CMDMANAGER::Init() {
 }
 
 void CMDMANAGER::ReceiveCmd (){
+
     InitBufFromHost();
     if (ActiveCom == ISUARTINTERFACE)
     {
@@ -139,8 +143,11 @@ void CMDMANAGER::ReceiveCmd (){
         ActiveInterface->Receive(&BufFromHostChunk[0], &receivelength[0]);
         count = 1;
         while (count > 0) {// wait until receive cmd 
+					
         }
+				//pc.printf("1\n");
         count = 1;
+			//	myLED = 0;
     }
     InitBufToHost();
 }
@@ -183,6 +190,9 @@ void CMDMANAGER::TransmitCmd (){
 /*  n           |Jump to bootloader                     */
 /********************************************************/
 int CMDMANAGER::DecodeCmd() {
+		//DigitalOut myLED(LED1);
+	 // myLED = 1;
+		//Sx1308.spiRead(0x80);
     int i = 0;
     int adressreg;
     int val;
@@ -195,7 +205,7 @@ int CMDMANAGER::DecodeCmd() {
     }
 
     cmdSettings_FromHost.id = BufFromHost[0];
-
+		
     if (CheckCmd(cmdSettings_FromHost.id) == false) {
         BufToHost[0] = 'k';
         BufToHost[1] = 0;
@@ -284,6 +294,7 @@ int CMDMANAGER::DecodeCmd() {
                 return(CMD_OK);
             }
         case 'w': { // cmd write register
+								//myLED = 1;	
                 cmdSettings_FromHost.len_msb = BufFromHost[1];
                 cmdSettings_FromHost.len_lsb = BufFromHost[2];
                 adressreg = BufFromHost[3];
@@ -448,7 +459,9 @@ int CMDMANAGER::DecodeCmd() {
                 /* Switch off SX1308 correlators to reduce power consumption during transmit */
 #ifdef V2
                 HSCLKEN = 0;
+								lgw_reg_w(LGW_CLKHS_EN, 0);
 #else
+								HSCLKEN = 0;
                 lgw_reg_w(LGW_CLKHS_EN, 0);
 #endif
 
@@ -490,7 +503,9 @@ int CMDMANAGER::DecodeCmd() {
                 /* Switch SX1308 correlators back on  */
 #ifdef V2
                 HSCLKEN = 1;
+								lgw_reg_w(LGW_CLKHS_EN, 1);
 #else
+								HSCLKEN = 1;
                 lgw_reg_w(LGW_CLKHS_EN, 1);
 #endif
 

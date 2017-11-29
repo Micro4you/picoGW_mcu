@@ -11,6 +11,7 @@
 #define USBMANAGER_H
 
 #include "mbed.h"
+#include "mbed_config.h"
 #include "SX1308.h"
 
 #define ATOMICTX 900
@@ -34,6 +35,8 @@
 #define ISUSBINTERFACE     0
 
 #define BAUDRATE 115200
+
+using namespace mbed;
 
 typedef struct {
     char id;

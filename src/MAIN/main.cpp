@@ -17,7 +17,9 @@
 
 #include "loragw_reg.h"
 
-CMDMANAGER CmdManager(PA_9, PA_10);
+//CMDMANAGER CmdManager(PA_9, PA_10);
+CMDMANAGER CmdManager(PA_2, PA_3);
+
 
 void Error_Handler(void);
 
@@ -39,6 +41,8 @@ void Error_Handler(void) {
 
 int main(void) {
 
+
+	
     uint8_t dataflash;
 
     /* Check if it is requested to jump to the bootloader (for reflashing...) */
@@ -47,16 +51,38 @@ int main(void) {
         FLASH_Prog(DATA_EEPROM_BASE, 0);
         ((void (*)(void)) * ((uint32_t*) BOOTLOADER_ADDR))();
     }
+/*
+			DigitalOut myLED(LED1);
 
+while(1)
+		{
+		myLED = 1;
+		wait(1);
+			myLED = 0;
+			wait(1);
+}
+	*/
+		
+//		pc.baud(115200);
+		//pc.printf("Hello\n");
+
+		
     /* Initialize the concentrator */
     lgw_connect();
     CmdManager.Init();
-
+		//DigitalOut myLED(LED1);
+		//DigitalOut myLED3(LED3);
     /* Wait for commands coming from host */
     while (1) {
-        CmdManager.ReceiveCmd();
+				
+			//myLED = 0;
+			//myLED3 = 1;
+			CmdManager.ReceiveCmd();
         if (CmdManager.DecodeCmd()) {
+						//DigitalOut myLED(LED1);
+						//myLED = 1;
             CmdManager.TransmitCmd();
+					  //pc.printf("1\n");
         }
     }
 }

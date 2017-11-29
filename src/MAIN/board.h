@@ -9,10 +9,11 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "mbed.h"
-#include "SX1308.h"
 
-//#define USE_UART 1
+#include "SX1308.h"
+#include "mbed.h"
+#define USE_UART 2
+using namespace mbed;
 
 #define BOOTLOADER_ADDR         0x1FFF0004
 #define GOTO_BOOTLOADER         0x10
@@ -24,6 +25,7 @@ extern SX1308 Sx1308;
 
 #ifndef USE_UART
 extern Serial pc;
+
 #endif
 
 extern DigitalOut HSCLKEN ;

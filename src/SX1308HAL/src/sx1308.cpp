@@ -17,6 +17,17 @@
 SX1308::SX1308(PinName slaveSelectPin, PinName mosi, PinName miso, PinName sclk, PinName GPIO0, PinName Reset)
     : _slaveSelectPin(slaveSelectPin), _spi(mosi, miso, sclk), _interrupt(GPIO0), _reset(Reset) {
 
+//			slaveSelectPin = PB_6;
+//			mosi = PA_7;
+//			miso = PA_6;
+//			sclk = PA_5;
+//			GPIO0 = PB_4;
+//			Reset = PB_8;
+			
+			//_slaveSelectPin(PB_6);
+//			SPI _spi(SPI_MOSI,SPI_MISO,SPI_SCK);
+			//_spi.write(0x55);
+			//Sx1308.spiWrite(0x55);
 }
 
 bool SX1308::init() {

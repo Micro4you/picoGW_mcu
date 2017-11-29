@@ -36,5 +36,6 @@
 #define DEVICE_ID_LENGTH       24
 
 #include "objects.h"
+#include "mbed_config.h" 
 
 #endif

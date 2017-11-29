@@ -10,20 +10,23 @@
 #include "board.h"
 #include "mbed.h"
 
+
 #ifndef USE_UART
-Serial pc(PB_6, PB_7);
+Serial pc(PA_2, PA_3);
+//pc.baud(115200);
+//pc.printf("Using UART \n\r");
 #endif
 
 #ifdef V2
-SX1308 Sx1308(PA_4, PA_7, PA_6, PA_5, PB_4, PA_3);
+SX1308 Sx1308(PB_6, PA_7, PA_6, PA_5, PB_4, PB_8);
 DigitalOut FEM_EN(PB_0);        // enable ldo 2V for PA
 DigitalOut RADIO_RST (PA_0);    // reset sx1257 but sx1257 deliver HSE clk for stm32  so use HSI clk before to reset sx1257
 DigitalOut HSCLKEN (PB_2);      // clk to switch off the correlators
 #endif
 #ifdef V1
-SX1308 Sx1308(PA_4, PA_7, PA_6, PA_5, PB_1, PA_3);
+SX1308 Sx1308(PB_6, PA_7, PA_6, PA_5, PB_4, PB_8);
 DigitalOut RADIO_RST (PA_0);
-DigitalOut HSCLKEN  (PB_14);
+DigitalOut HSCLKEN  (PB_2);
 #endif
 
 void  FLASH_Prog( uint32_t Address, uint8_t Data ) {
